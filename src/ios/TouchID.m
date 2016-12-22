@@ -37,6 +37,24 @@
     }
 }
 
+- (void)isDeviceCapable:(CDVInvokedUrlCommand*)command{
+  self.laContext = [[LAContext alloc] init];
+  NSError *error = nil;
+  BOOL touchIDAvailable = [self.laContext canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error];
+  if(touchIDAvailable){
+      CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  }
+  else if(error.code == LAError.LAErrorTouchIDNotEnrolled){
+      CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  }
+  else{
+      CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"Device not capable of TouchID"];
+      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+  }
+}
+
 - (void)setLocale:(CDVInvokedUrlCommand*)command{
   CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

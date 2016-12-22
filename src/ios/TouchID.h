@@ -30,6 +30,7 @@
 @property (strong, nonatomic) LAContext* laContext;
 
 - (void) isAvailable:(CDVInvokedUrlCommand*)command;
+- (void) isDeviceCapable:(CDVInvokedUrlCommand*)command;
 - (void) has:(CDVInvokedUrlCommand*)command;
 - (void) save:(CDVInvokedUrlCommand*)command;
 - (void) verify:(CDVInvokedUrlCommand*)command;
